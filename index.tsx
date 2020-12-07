@@ -9,6 +9,7 @@ import * as React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle, TextStyle } from "react-native";
 
 export type IProps = {
+  launchTouchIdForce?: boolean
   bottomLeftComponent?: any
   buttonComponentLockedPage?: any
   buttonDeleteComponent?: any
@@ -324,6 +325,7 @@ class PINCode extends React.PureComponent<IProps, IState> {
             touchIDTitle={this.props.touchIDTitle || touchIDTitleDefault}
             vibrationEnabled={this.props.vibrationEnabled}
             delayBetweenAttempts={this.props.delayBetweenAttempts}
+            launchTouchIdForce={this.props.launchTouchIdForce}
           />}
         {(pinStatus === PinResultStatus.locked ||
           this.state.internalPinStatus === PinResultStatus.locked ||

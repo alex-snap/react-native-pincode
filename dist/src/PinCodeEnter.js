@@ -67,7 +67,10 @@ class PinCodeEnter extends React.PureComponent {
         }
     }
     componentDidMount() {
-        if (!this.props.touchIDDisabled)
+        if (this.props.launchTouchIdForce && !this.props.touchIDDisabled) {
+            this.launchTouchID();
+        }
+        else if (!this.props.touchIDDisabled)
             this.triggerTouchID();
     }
     componentDidUpdate(prevProps, prevState, prevContext) {
@@ -75,7 +78,12 @@ class PinCodeEnter extends React.PureComponent {
             this.setState({ pinCodeStatus: this.props.pinStatusExternal });
         }
         if (prevProps.touchIDDisabled && !this.props.touchIDDisabled) {
-            this.triggerTouchID();
+            if (this.props.launchTouchIdForce) {
+                this.launchTouchID();
+            }
+            else {
+                this.triggerTouchID();
+            }
         }
     }
     triggerTouchID() {

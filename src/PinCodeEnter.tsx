@@ -90,6 +90,7 @@ export interface IProps {
   passcodeFallback?: boolean
   vibrationEnabled?: boolean
   delayBetweenAttempts?: number
+  launchTouchIdForce?: boolean
 }
 
 export interface IState {
@@ -123,7 +124,10 @@ class PinCodeEnter extends React.PureComponent<IProps, IState> {
   }
 
   componentDidMount() {
-    if (!this.props.touchIDDisabled) this.triggerTouchID()
+    if (this.props.launchTouchIdForce && !this.props.touchIDDisabled) {
+      this.launchTouchID();
+  } else if (!this.props.touchIDDisabled)
+      this.triggerTouchID();
   }
 
   componentDidUpdate(
@@ -135,8 +139,12 @@ class PinCodeEnter extends React.PureComponent<IProps, IState> {
       this.setState({ pinCodeStatus: this.props.pinStatusExternal })
     }
     if (prevProps.touchIDDisabled && !this.props.touchIDDisabled) {
-      this.triggerTouchID()
-    }
+      if (this.props.launchTouchIdForce) {
+          this.launchTouchID();
+      } else {
+          this.triggerTouchID();
+      }
+  }
   }
 
   triggerTouchID() {
